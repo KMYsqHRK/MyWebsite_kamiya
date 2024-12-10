@@ -1,0 +1,184 @@
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+    padding: 20px;
+}
+
+header {
+    background-color: rgba(252, 252, 230, 0.7);
+    padding: 10rem;
+    text-align: center;
+}
+
+.hero {
+    background: rgba(60, 91, 127, 0.8);
+    color: #fff;
+    padding: 5rem;
+    text-align: center;
+}
+
+.section {
+    color: rgb(60, 91, 127); 
+    padding: 1rem;
+    text-align: center;
+}
+
+.projects {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-gap: 1rem;
+    padding: 2rem 0;    
+}
+
+.project {
+    cursor: pointer;
+    background: rgba(252, 252, 230, 0.7);
+    padding: 1rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    color: inherit; /* 親要素の色を継承 */
+    text-decoration: none; /* 下線を削除 */
+}
+
+.project h3 {
+    color: rgb(60, 91, 127); /* タイトルの色を設定 */
+}
+.project p {
+    color: rgb(60, 91, 127); /* 説明文の色を設定 */
+}
+
+.skills {
+    background: rgba(60, 91, 127, 0.8);
+    color: #fff;
+    padding: 2rem;
+    text-align: center;
+}
+
+.contact {
+    padding: 2rem;
+    text-align: center;
+}
+
+footer {
+    background: rgba(60, 91, 127, 0.8);
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+}
+
+.lines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        linear-gradient(to right, rgba(121, 182, 252, 0.8) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(121, 182, 252, 0.8)  1px, transparent 1px);
+    background-size: 30px 30px;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.icon {
+    width: auto;
+    height: 300px;
+    fill: #b3d6df;
+    color: #fff;
+}
+
+/*アニメーション用の設定を追加*/
+.project {
+    transition: transform 0.3s ease;
+}
+
+.project:hover {
+    transform: scale(1.05);
+}
+
+.project:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.project img {
+    width: auto;
+    height: 200px;
+    transition: transform 0.3s ease;
+}
+
+.project:hover img {
+    transform: scale(1.1);
+}
+
+.project-title {
+    font-size: 1.2em;
+    margin-bottom: 0.5em;
+}
+
+.project-description {
+    font-size: 0.9em;
+}
+
+/* アニメーション用のキーフレーム */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.project:hover .project-title,
+.project:hover .project-description {
+    transform: scale(1.1);
+}
+
+.project:hover .project-description {
+    animation-delay: 0.1s;
+}
+
+.fade-in {
+    opacity: 0;
+    transition: opacity 1s ease-out;
+}
+
+.slide-in {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.skill-bar {
+    background-color: #ddd;
+    height: 20px;
+    margin-bottom: 10px;
+}
+
+.skill-progress {
+    background-color: #8ac98c;
+    height: 100%;
+    width: 0;
+    transition: width 1s ease-out;
+}
+
+/* アニメーションのための追加のスタイル */
+.fade-in.visible, .slide-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
