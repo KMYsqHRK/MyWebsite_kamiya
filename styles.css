@@ -23,9 +23,12 @@ header {
 
 .hero {
     background: rgba(60, 91, 127, 0.8);
-    color: #fff;
     padding: 5rem;
     text-align: center;
+}
+
+.section.hero {
+    color: white;
 }
 
 .section {
