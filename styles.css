@@ -10,6 +10,7 @@ body {
 .container {
     width: 80%;
     margin: auto;
+    color: #fff;
     overflow: hidden;
     padding: 20px;
 }
