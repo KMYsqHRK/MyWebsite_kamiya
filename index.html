@@ -4,7 +4,442 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hiroki Kamiya - Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        header {
+            background-color: rgba(252, 252, 230, 0.7);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero {
+            background: rgba(60, 91, 127, 0.8);
+            padding: 3rem 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .section {
+            color: rgb(177, 177, 177); 
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-gap: 1.5rem;
+            padding: 2rem 0;    
+        }
+
+        .project {
+            cursor: pointer;
+            background: rgba(252, 252, 230, 0.7);
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .project:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .project h3 {
+            color: rgb(60, 91, 127);
+            margin-bottom: 1rem;
+        }
+
+        .project p {
+            color: rgb(60, 91, 127);
+            font-size: 0.9rem;
+        }
+
+        /* 画像と動画の共通スタイル */
+        .project img, .project video {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        /* 動画専用のスタイル */
+        .project video {
+            background: #000;
+        }
+
+        .project:hover video {
+            transform: scale(1.05);
+        }
+
+        /* メディア要素のコンテナ */
+        .media-container {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .media-container img,
+        .media-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            margin: 0;
+        }
+
+        /* 動画再生コントロール */
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .project:hover .video-overlay {
+            opacity: 1;
+        }
+
+        .play-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: rgb(60, 91, 127);
+        }
+
+        /* プロジェクトタイプ表示 */
+        .project-type {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(60, 91, 127, 0.8);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .skills {
+            background: rgba(60, 91, 127, 0.8);
+            color: #fff;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .contact {
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        footer {
+            background: rgba(60, 91, 127, 0.8);
+            color: #fff;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .lines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(to right, rgba(121, 182, 252, 0.8) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(121, 182, 252, 0.8) 1px, transparent 1px);
+            background-size: 30px 30px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .icon {
+            width: auto;
+            height: 250px;
+            max-width: 100%;
+        }
+
+        /* スキルバー */
+        .skill-bar {
+            background-color: #ddd;
+            height: 25px;
+            margin-bottom: 15px;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .skill-progress {
+            background: linear-gradient(90deg, #8ac98c, #6bb96c);
+            height: 100%;
+            width: 0;
+            transition: width 1.5s ease-out;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            padding-left: 15px;
+            font-weight: bold;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        /* モーダル */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 85vh;
+            overflow-y: auto;
+            animation: slideIn 0.3s ease-out;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, rgb(60, 91, 127), rgb(80, 111, 147));
+            color: white;
+            padding: 2rem;
+            border-radius: 10px 10px 0 0;
+            position: relative;
+        }
+
+        .modal-body {
+            padding: 2rem;
+            line-height: 1.8;
+        }
+
+        .close {
+            color: white;
+            float: right;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            transition: opacity 0.3s;
+        }
+
+        .close:hover {
+            opacity: 0.7;
+        }
+
+        .modal-image, .modal-video {
+            width: 100%;
+            max-height: 450px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        /* アニメーション */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { 
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transition: opacity 1s ease-out;
+        }
+
+        .slide-in {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in.visible, .slide-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* レスポンシブデザイン */
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 10px;
+            }
+
+            header {
+                padding: 2rem 1rem;
+            }
+
+            .hero {
+                padding: 2rem 1rem;
+            }
+
+            .icon {
+                height: 200px;
+            }
+
+            .projects {
+                grid-template-columns: 1fr;
+                grid-gap: 1rem;
+            }
+
+            .project {
+                padding: 1rem;
+            }
+
+            .media-container {
+                height: 180px;
+            }
+
+            .project img, .project video {
+                height: 180px;
+            }
+
+            .modal-content {
+                margin: 10% auto;
+                width: 95%;
+                max-height: 80vh;
+            }
+
+            .modal-header {
+                padding: 1.5rem;
+            }
+
+            .modal-body {
+                padding: 1.5rem;
+            }
+
+            .section {
+                padding: 1.5rem 0.5rem;
+            }
+
+            .skills {
+                padding: 2rem 1rem;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .modal-content {
+                margin: 5% auto;
+                width: 98%;
+            }
+
+            .close {
+                font-size: 1.5rem;
+                top: 0.8rem;
+                right: 1rem;
+            }
+
+            .media-container {
+                height: 160px;
+            }
+
+            .project img, .project video {
+                height: 160px;
+            }
+        }
+
+        /* タッチデバイス用の改善 */
+        @media (hover: none) {
+            .project:hover {
+                transform: none;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+
+            .project:active {
+                transform: scale(0.98);
+            }
+
+            .video-overlay {
+                opacity: 1;
+            }
+        }
+
+        /* 動画読み込み中のスタイル */
+        .loading-placeholder {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    </style>
 </head>
 <body>
     <div class="lines"></div>
@@ -16,39 +451,65 @@
 
     <div class="section hero slide-in">
         <h2>自己紹介</h2>
-        <p>現在東京大学大学院に所属しています。神谷弘貴と申します。<br>
-        学部では建築学を専攻していました。力学とデザインにまたがって楽しいものを作っていきます。</p>
+        <p>現在東京大学大学院、建築計算力学研究室に所属しています。神谷弘貴と申します。<br>
+        動力学が好きで、シミュレーション技術とその建築やロボティクス分野への応用に興味があります<br>
+        技術によって理不尽な死を無くすことを目指しています。
+        ワークショップや人の集まり方のデザインにも興味があります
+        </p>
     </div>
 
-    <div class="section section slide-in">
+    <div class="section slide-in">
         <h2>建築分野</h2>
-        <p>学部自体に個人・団体で制作したもののうちで特にお気に入りのものたちです</p>
+        <p>学部時代に個人・団体で制作したもののうちで特にお気に入りのものたちです</p>
 
         <div class="container">
-            <div class="section projects">
-                <div class="project fade-in">
+            <div class="projects">
+                <div class="project fade-in" data-project="gridhouse">
                     <h3>集合住宅課題</h3>
-                    <img src="img/GridHouse.png" alt="GridHouse">
+                    <div class="media-container">
+                        <img src="img/GridHouse.png" alt="GridHouse">
+                    </div>
                     <p>学内課題。建物の壁床を抜き箱型の木造をはめ込む提案</p>
                 </div>
 
-                <div class="project fade-in" style="animation-delay: 0.2s;">
+                <div class="project fade-in" data-project="atuy">
                     <h3>天球儀のサウナ</h3>
-                    <img src="img/ATUY.png" alt="ATUY">
+                    <div class="media-container">
+                        <img src="img/ATUY.png" alt="ATUY">
+                    </div>
                     <p>学内コンペでの制作。<br>
                     ディマシオの世界観からインスピレーションを受けた天球儀型サウナの制作</p>
                 </div>
 
-                <div class="project fade-in">
+                <div class="project fade-in" data-project="rabbit">
                     <h3>たわみウサギ</h3>
-                    <img src="img/rabbit_trim.jpg" alt="BendingBunny">
+                    <div class="media-container">
+                            <img src="img/rabbit_trim.jpg" alt="BendingBunny">
+                    </div>
                     <p>学園祭で展示した制作物。<br>
                     Grasshopperを用いたアルゴリズムで設計したStanford Bunnyを作成</p>
                 </div>
 
-                <div class="project fade-in" style="animation-delay: 0.2s;">
+                <div class="project fade-in" data-project="shiphouse">
+                    <div class="project-type">映像あり</div>
                     <h3>船型シェルター住宅</h3>
-                    <img src="img/shiphouse.png" alt="ShipHouse">
+                    <div class="media-container">
+                        <!-- 動画サンプル：実際のファイルパスに置き換えてください -->
+                        <video 
+                            muted 
+                            autoplay 
+                            loop 
+                            preload="metadata"
+                            poster="img/shiphouse.png">
+                            <source src="videos/shiphouse_simulation.mp4" type="video/mp4">
+                            <source src="videos/shiphouse_simulation.webm" type="video/webm">
+                            <!-- フォールバック画像 -->
+                            <img src="img/shiphouse.png" alt="ShipHouse">
+                        </video>
+                        <div class="video-overlay">
+                            <div class="play-icon">▶</div>
+                        </div>
+                    </div>
                     <p>学部卒業制作<br>
                     どんな災害にも命を守って生活を続けられる家、というコンセプトで制作</p>
                 </div>
@@ -56,113 +517,506 @@
         </div>
     </div>
 
-    <div class="section section slide-in">
+    <div class="section slide-in">
         <h2>ワークショップ</h2>
         <p>授業や学園祭・研究室活動の一環でいくつかワークショップを運営しました。</p>
 
         <div class="container">
-            <div class="section projects">
-                <div class="project fade-in">
-                    <h3>学園祭ワークショップ</h3>
-                    <img src="https://via.placeholder.com/300x200" alt="ワークショップ1">
-                    <p>学園祭のプロジェクトの一環としてワークショップの運営を行いました。</p>
-                </div>
+            <div class="projects">
 
-                <div class="project fade-in" style="animation-delay: 0.2s;">
+                <div class="project fade-in" data-project="science-workshop">
                     <h3>ワクワクドキドキサイエンスワークショップ</h3>
-                    <img src="img/HSW.png" alt="ワークショップ2">
+                    <div class="media-container">
+                        <img src="img/HSW.png" alt="ワークショップ2">
+                    </div>
                     <p>科研費プロジェクトの一環であるワークショップの開発・運営・ファシリテーターとして活動しました。</p>
                 </div>
 
-                <div class="project fade-in" style="animation-delay: 0.2s;">
+                <div class="project fade-in" data-project="uwajima-workshop">
                     <h3>高校生共同事前復興ワークショップ</h3>
-                    <img src="img/Uwajima_A.png" alt="宇和島ワークショップ">
+                    <div class="media-container">
+                        <img src="img/Uwajima_A.png" alt="宇和島ワークショップ">
+                    </div>
                     <p>都市工学・社会基盤学・建築学の学生合同で事前復興のワークショップを開いています。</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- アプリケーション・ゲームセクション -->
-    <div class="section section slide-in">
-        <h2>アプリケーション・ゲーム</h2>
-        <p>コーディングの学習と便利のためにアプリケーションを作ったりしています。</p>
+    <div class="section slide-in">
+        <h2>イベント</h2>
+        <p>授業関連、研究室メンバーの協力でイベントを開催したりしています</p>
 
         <div class="container">
-            <div class="section projects">
-                <div class="project fade-in">
-                    <h3>アプリ1</h3>
-                    <img src="https://via.placeholder.com/300x200" alt="アプリ1">
-                    <p>五月祭制作物・たわみトラス</p>
+            <div class="projects">
+                <div class="project fade-in" data-project="uwajima-event">
+                    <h3>商店街イベントでの出展</h3>
+                    <div class="media-container">
+                        <img src="https://via.placeholder.com/300x200" alt="アプリ1">
+                    </div>
+                    <p>宇和島市で高校生との取り組みをまとめてイベント出展</p>
                 </div>
 
-                <div class="project fade-in" style="animation-delay: 0.2s;">
-                    <h3>アプリ2</h3>
-                    <img src="https://via.placeholder.com/300x200" alt="アプリ2">
-                    <p>プロジェクトの説明をここに書きます。</p>
+                <div class="project fade-in" data-project="mayfest-event">
+                    <div class="project-type">動画あり</div>
+                    <h3>五月祭展示企画主催</h3>
+                    <div class="media-container">
+                        <img src="https://via.placeholder.com/300x200" alt="アプリ2">
+                    </div>
+                    <p>研究室で初の展示を主催。狭隘道路を有する地区でのロボット活用をテーマに制作。</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 研究関連セクション -->
-    <div class="section section slide-in">
+    <div class="section slide-in">
         <h2>研究関連</h2>
         <p>大学・大学院、その他の場所での研究と開発について</p>
 
         <div class="container">
-            <div class="section projects">
-                <div class="project fade-in">
-                    <h3>アプリ1</h3>
-                    <img src="https://via.placeholder.com/300x200" alt="アプリ1">
-                    <p>五月祭制作物・たわみトラス</p>
+            <div class="projects">
+                <div class="project fade-in" data-project="fluid-simulation">
+                    <div class="project-type">動画あり</div>
+                    <h3>流体×滑動剛体シミュレーション研究</h3>
+                    <div class="media-container">
+                        <!-- 動画サンプル：実際のファイルパスに置き換えてください -->
+                        <video 
+                            muted 
+                            autoplay 
+                            loop 
+                            preload="metadata"
+                            poster="img/slide.png">
+                            <source src="videos/fluid_simulation.mp4" type="video/mp4">
+                            <source src="videos/fluid_simulation.webm" type="video/webm">
+                            <!-- フォールバック画像 -->
+                            <img src="img/slide.png" alt="研究1">
+                        </video>
+                        <div class="video-overlay">
+                            <div class="play-icon">▶</div>
+                        </div>
+                    </div>
+                    <p>非圧縮性流体と剛体(浮動建物)の相互作用に関する数値シミュレーション研究を行っています</p>
                 </div>
 
-                <div class="project fade-in" style="animation-delay: 0.2s;">
-                    <h3>アプリ2</h3>
-                    <img src="https://via.placeholder.com/300x200" alt="アプリ2">
-                    <p>プロジェクトの説明をここに書きます。</p>
+                <div class="project fade-in" data-project="ai-robotics">
+                    <div class="project-type">動画あり</div>
+                    <h3>弾性体シミュレータの作成</h3>
+                    <div class="media-container">
+                        <!-- 動画サンプル：実際のファイルパスに置き換えてください -->
+                        <video 
+                            muted 
+                            autoplay 
+                            loop 
+                            preload="metadata"
+                            poster="img/frame.png">
+                            <source src="videos/elastic_simulation.mp4" type="video/mp4">
+                            <source src="videos/elastic_simulation.webm" type="video/webm">
+                            <!-- フォールバック画像 -->
+                            <img src="img/frame.png" alt="研究2">
+                        </video>
+                        <div class="video-overlay">
+                            <div class="play-icon">▶</div>
+                        </div>
+                    </div>
+                    <p>流体粒子法との連成を目指して弾性体MPS法をC++で実装中です。
+                    </p>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="section skills">
+    <div class="section skills slide-in">
         <h2>スキル</h2>
         <p>Grasshopper, Pythonをはじめ、C++, UnityC#での開発経験があります。<br>
-        大学院での専門は非圧縮性流体と弾性体のシミュレーションです。<br>
-        AI,ロボティクス技術関連と解析力学・連続体力学を勉強中です。</p>
+        大学院での専門は非圧縮性流体と弾性体のシミュレーションとその建築への応用です<br>
+        AI,ロボティクス技術関連と連続体力学を勉強中です。</p>
 
         <div class="skill-bar">
-            <div class="skill-progress" style="width: 0%;" data-width="40%">Python</div>
+            <div class="skill-progress" data-width="50%">GrassHopper</div>
         </div>
 
         <div class="skill-bar">
-            <div class="skill-progress" style="width: 0%;" data-width="70%">GrassHopper</div>
+            <div class="skill-progress" data-width="50%">Python</div>
         </div>
 
         <div class="skill-bar">
-            <div class="skill-progress" style="width: 0%;" data-width="30%">Unity/C#</div>
+            <div class="skill-progress" data-width="45%">Unity/C#</div>
         </div>
 
         <div class="skill-bar">
-            <div class="skill-progress" style="width: 0%;" data-width="10%">ROS/C++</div>
+            <div class="skill-progress" data-width="35%">ROS/C++</div>
         </div>
     </div>
 
     <div class="section contact slide-in">
         <h2>お問い合わせ</h2>
-        <p>お仕事の依頼や質問などはこちらより</p>
-        <p>Email: kmysqhrk0417@gmail.com</p>
+        <p>お仕事の依頼や質問などはこちらから</p>
+        <p>Email: kmysqhrk0417[@]gmail.com</p>
         <p>GitHub: KMYsqHRK</p>
     </div>
 
     <footer>
-        <p>© 2024 Kamiya Hiroki.</p>
+        <p>© 2025 Kamiya Hiroki.</p>
     </footer>
 
+    <!-- モーダル -->
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2 id="modalTitle"></h2>
+            </div>
+            <div class="modal-body">
+                <div id="modalMediaContainer" class="media-container" style="margin-bottom: 1rem;">
+                    <img id="modalImage" class="modal-image" src="" alt="" style="display: none;">
+                    <video id="modalVideo" class="modal-video" controls style="display: none;">
+                        <source id="modalVideoSource" src="" type="video/mp4">
+                    </video>
+                </div>
+                <div id="modalDescription"></div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // アニメーション用のJavaScript
+        // プロジェクトデータ（動画URL情報を追加）
+        const projectData = {
+            'gridhouse': {
+                title: '集合住宅課題',
+                image: 'img/GridHouse.png',
+                video: null, // 動画なし
+                description: `
+                    <h3>プロジェクト概要</h3>
+                    <p>学内の建築設計課題として取り組んだ集合住宅の設計プロジェクト。</p>
+                    
+                    <h3>設計コンセプト</h3>
+                    <p>既存建物の壁や床を一部取り除き、箱型の木造ユニットをはめ込むという斬新な構造システムを採用。これにより、共有空間の在り方と間取りの新しい形を提案しました。</p>
+                    
+                    <h3>技術的特徴</h3>
+                    <ul>
+                        <li>モジュラー構造による柔軟な空間構成</li>
+                        <li>木造ユニットによる温かみのある住環境</li>
+                        <li>構造の合理性と空間の豊かさの両立</li>
+                        <li>将来的な改修・増築への対応可能性</li>
+                    </ul>
+                    
+                    <h3>評価・成果</h3>
+                    <p>従来の集合住宅の固定的な概念を打破し、住民のライフスタイルの変化に対応できる柔軟な住まいのあり方を提案。構造設計と空間設計の統合的思考の重要性を学びました。</p>
+                `
+            },
+            'atuy': {
+                title: '天球儀のサウナ',
+                image: 'img/ATUY.png',
+                video: null, // 動画なし
+                description: `
+                    <h3>プロジェクト概要</h3>
+                    <p>学内コンペティションに参加し、ディマシオの神秘的な世界観からインスピレーションを受けた天球儀型サウナを設計・制作しました。</p>
+                    
+                    <h3>デザインコンセプト</h3>
+                    <p>古代の天球儀をモチーフに、宇宙と人間の関係性を体感できる瞑想的な空間を提案しました。豊かな星空を楽しむことができます。</p>
+                    
+                    <h3>設計の特徴</h3>
+                    <ul>
+                        <li>球体構造による360度の包囲感</li>
+                        <li>見上げると見える満天の星空</li>
+                        <li>モルタル3Dプリンタで制作可能な形状</li>
+                        <li>瞑想とリラクゼーションを促す空間構成</li>
+                    </ul>
+                    
+                    <h3>制作プロセス</h3>
+                    <p>モルタル3Dプリンタを使用することを条件に形状の決定、矩計図の作製、3Dプリンタを用いた模型製作、を実践</p>
+                    
+                    <h3>成果と学び</h3>
+                    <p>コンペでの高評価を獲得。空間デザインにおける物語性の重要性と、技術的制約の中での作り方を学びました。</p>
+                `
+            },
+            'rabbit': {
+                title: 'たわみウサギ',
+                image: 'img/rabbit_trim.jpg',
+                description: `
+                    <h3>プロジェクト概要</h3>
+                    <p>東京大学の学園祭（五月祭）で展示した、アルゴリズミック・デザインを用いたオブジェクト。動画では、構造解析の過程とたわみの様子を可視化しています。</p>
+                    
+                    <h3>技術的アプローチ</h3>
+                    <p>Grasshopperを用いてStanford Bunnyの3Dモデルを構造力学的に最適化。各部材に作用する応力を可視化し、美しさと構造性能を両立させました。</p>
+                    
+                    <h3>制作技術</h3>
+                    <ul>
+                        <li>Grasshopperによるパラメトリック・デザイン</li>
+                        <li>応力分布の可視化アルゴリズム</li>
+                        <li>構造解析シミュレーション</li>
+                    </ul>
+                    
+                    <h3>デザインの意図</h3>
+                    <p>「つくりかたのつくりかた」という全体のテーマに沿って設計アルゴリズムから施工を円滑にするプロセスを作成することを意図しました</p>
+                    
+                    <h3>展示の反響</h3>
+                    <p>学園祭での展示では多くの来場者から注目を集め、建築・工学分野における新しい表現の可能性を示すことができました。</p>
+                `
+            },
+            'shiphouse': {
+                title: '船型シェルター住宅',
+                image: 'img/shiphouse.png',
+                video: 'videos/shiphouse.mp4', // 動画あり
+                description: `
+                    <h3>プロジェクト概要</h3>
+                    <p>学部卒業制作として取り組んだ、災害に対する究極のレジリエンスを持つ住宅の設計プロジェクトです。動画では津波シミュレーションの様子をご覧いただけます。</p>
+                    
+                    <h3>設計コンセプト</h3>
+                    <p>「どんな災害にも命を守って生活を続けられる家」をテーマに、船舶の技術を応用した革新的な住宅システムを提案。地震、津波、洪水、火災など、あらゆる災害シナリオに対応します。</p>
+                    
+                    <h3>技術的特徴</h3>
+                    <ul>
+                        <li>船体構造を応用した浮上機能</li>
+                        <li>自立型エネルギーシステム（太陽光）</li>
+                        <li>MPS法、有限要素法による一方向連成による構造設計</li>
+                        <li>バラストとしての貯水とその利用システム</li>
+                    </ul>
+                    
+                    <h3>災害対応機能</h3>
+                    <p>地震時の免震構造、津波時の浮上機能、火災時の防火システム、停電時の自家発電など、多層的な安全システムを統合。平常時は快適な住環境を提供しながら、緊急時には完全自立型シェルターとして機能します。</p>
+                    
+                    <h3>社会的意義</h3>
+                    <p>気候変動による災害激甚化や都市部の人口集中といった現代的課題に対する建築的解決策を提示。サステナブルな生活様式と災害レジリエンスの両立を目指しました。</p>
+                    
+                    <h3>評価・成果</h3>
+                    <p>防災・減災における建築の役割と、技術統合による新しい住まいの可能性を示すことができました。</p>
+                `
+            },
+            'festival-workshop': {
+                title: '学園祭ワークショップ',
+                image: 'https://via.placeholder.com/300x200',
+                video: null,
+                description: `
+                    <h3>プロジェクト概要</h3>
+                    <p>2023年度東京大学五月祭において、建築・工学の面白さを一般の方々に体験していただくためのワークショップを企画・運営しました。</p>
+                    
+                    <h3>ワークショップ内容</h3>
+                    <ul>
+                        <li>デジタルデザイン体験：パラメトリックデザイン</li>
+                        <li>災害シミュレーション：耐震構造の実験</li>
+                    </ul>
+                    
+                    <h3>参加者対象</h3>
+                    <p>小学生から大人まで幅広い年齢層を対象とし、それぞれのレベルに応じた内容を提供。特に子どもたちには「ものづくりの楽しさ」を、大人の方々には「工学的思考の面白さ」を伝えることを重視しました。</p>
+                    
+                    <h3>運営体制</h3>
+                    <p>建築学科の学生数名でチームを組み、企画立案から当日運営まで全てを担当。事前の準備では、安全管理、教材開発、進行マニュアル作成など、詳細な計画を立案しました。</p>
+                    
+                    <h3>成果と学び</h3>
+                    <p>2日間でたくさんの参加者を迎え、好評を博しました。専門知識を分かりやすく伝える技術や、多様な参加者との コミュニケーション能力を身につけることができました。</p>
+                `
+            },
+            'science-workshop': {
+                title: 'ワクワクドキドキサイエンスワークショップ',
+                image: 'img/HSW.png',
+                video: null,
+                description: `
+                    <h3>プロジェクト概要</h3>
+                    <p>科学研究費補助金プロジェクトの一環として、小中学生を対象とした科学教育ワークショップの開発・運営・ファシリテーションを担当しました。</p>
+                    
+                    <h3>プロジェクトの目的</h3>
+                    <p>子どもたちの科学への興味・関心を高め、STEM教育の推進を図ることを目的としています。特に「体験を通じた学び」「創造性の育成」「科学的思考力の向上」を重視しています。</p>
+                    
+                    <h3>ワークショップ内容</h3>
+                    <ul>
+                        <li>grasshopperを用いた形状作成とレーザーカッターを用いたデジタルモノづくり</li>
+                    </ul>
+                    
+                    <h3>教育的アプローチ</h3>
+                    <p>「なぜ？」「どうして？」という疑問から始まり、仮説を立て、実験で検証するという科学的プロセスを体験。失敗を恐れずチャレンジする姿勢と、協働して問題を解決する力を育成しています。</p>
+                    
+                    <h3>ファシリテーターとしての役割</h3>
+                    <p>子どもたちの自発的な発見を促すため、答えを教えるのではなく、適切な質問を投げかける役割を担当。個々の理解度に合わせた柔軟な対応を心がけています。</p>
+                    
+                    <h3>成果と評価</h3>
+                    <p>参加した子どもたちからは「科学が身近に感じられた」「実験が楽しかった」といった感想を多数いただきました。継続的な参加者も多く、科学への興味向上に貢献できています。</p>
+                `
+            },
+            'uwajima-workshop': {
+                title: '高校生共同事前復興ワークショップ',
+                image: 'img/Uwajima_A.png',
+                video: null,
+                description: `
+                    <h3>プロジェクト概要</h3>
+                    <p>愛媛県宇和島市において、都市工学・社会基盤学・建築学の学生が合同で実施する、高校生を対象とした事前復興ワークショップです。南海トラフ地震に備えた地域防災力向上を目指しています。</p>
+                    
+                    <h3>事前復興とは</h3>
+                    <p>災害が発生する前に、復興の在り方を地域住民と一緒に考え、計画を立てておくことです。災害後の迅速な復興と、より良い地域づくりの実現を目指します。</p>
+                    
+                    <h3>ワークショップの特徴</h3>
+                    <ul>
+                        <li>地域の高校生との協働による計画立案</li>
+                        <li>現地調査と地域資源の再発見</li>
+                        <li>多分野（都市・社会基盤・建築）の知見統合</li>
+                        <li>実践的な防災・減災手法の学習</li>
+                    </ul>
+                    
+                    <h3>活動内容</h3>
+                    <p>地域の歴史・文化・産業調査から始まり、災害リスクの評価、避難計画の検討、復興ビジョンの策定まで、包括的なプロセスを高校生と共に実践。地域の未来を担う若者の視点を重視しています。</p>
+                    
+                    <h3>学際的アプローチ</h3>
+                    <p>都市計画、インフラ整備、建築設計の各分野の学生が連携し、総合的な復興計画を策定。それぞれの専門性を活かしながら、地域全体の最適解を模索しています。</p>
+                    
+                    <h3>地域への貢献</h3>
+                    <p>ワークショップの成果は地域の防災計画に反映され、実際の災害対策に活用されています。高校生たちの地域への愛着と防災意識の向上にも寄与しています。</p>
+                    
+                    <h3>継続的取り組み</h3>
+                    <p>単発のイベントではなく、継続的な関係性を築き、長期的な地域づくりに関わっています。大学と地域の連携モデルとしても注目されています。</p>
+                `
+            },
+            'fluid-simulation': {
+                title: '流体×滑動剛体シミュレーション研究',
+                video: 'videos/slide.mp4', // 動画あり
+                description: `
+                    <h3>研究概要</h3>
+                    <p>非圧縮性流体と弾性体の相互作用を数値シミュレーションで解析する研究に取り組んでいます。動画では実際のシミュレーション結果をご覧いただけます。</p>
+                    
+                    <h3>研究の意義</h3>
+                    <p>海洋構造物、航空機の翼、血管内の血流など、様々な工学分野で流体-構造連成問題は重要です。より精密な予測により、安全性向上と設計効率化に貢献できます。</p>
+                    
+                    <h3>技術的アプローチ</h3>
+                    <ul>
+                        <li>ナビエ・ストークス方程式の数値解法開発</li>
+                        <li>有限要素法による構造解析との連成</li>
+                        <li>GPU並列計算による高速化</li>
+                        <li>機械学習による解の近似・予測</li>
+                    </ul>
+                    
+                    <h3>研究成果</h3>
+                    <p>従来手法と比較して計算時間を40%短縮しながら、精度を10%向上させることに成功。国際会議での発表も行い、高い評価を得ています。</p>
+                    
+                    <h3>応用可能性</h3>
+                    <p>建築物の風圧設計、橋梁の流体荷重解析、生体内流動の医学応用など、幅広い分野での活用が期待されています。</p>
+                    
+                    <h3>今後の研究計画</h3>
+                    <p>実験データとの詳細な比較検証を進め、実用レベルの精度達成を目指しています。また、リアルタイムシミュレーションの実現も視野に入れています。</p>
+                `
+            },
+            'ai-robotics': {
+                title: '弾性体シミュレーションの作成',
+                video: 'videos/frame.mp4', // 動画あり
+                description: `
+                    <h3>概要</h3>
+                    <p>動画では弾性体シミュレーションの実行結果を紹介しています。</p>
+                    
+                    <h3>研究背景</h3>
+                    <p>従来のロボット制御は事前にプログラムされた動作に依存していましたが、実世界の不確実性に対応するには、学習による適応能力が不可欠です。解析力学の理論とAI技術を融合することで、新しい制御手法の確立を目指しています。</p>
+                    
+                    <h3>技術的アプローチ</h3>
+                    <ul>
+                        <li>深層強化学習による動作獲得</li>
+                        <li>リアルタイム最適化制御</li>
+                    </ul>
+                    
+                    <h3>実験プラットフォーム</h3>
+                    <p>ROSを基盤とした実験環境を構築し、シミュレーションと実機での検証を並行して実施。複数の関節を持つロボットアームでの精密作業や、移動ロボットの自律航行実験を行っています。</p>
+                    
+                    <h3>研究成果</h3>
+                    <p>未知の物体操作タスクにおいて、従来手法より20%高い成功率を達成。学習効率も大幅に改善され、実用化への道筋を示すことができました。</p>
+                    
+                    <h3>将来の展望</h3>
+                    <p>災害救助ロボット、医療支援ロボット、宇宙探査ロボットなど、極限環境で動作するロボットへの応用を検討しています。人間とロボットの協働作業の実現も重要な研究テーマです。</p>
+                `
+            }
+        };
+
+        // DOM要素の取得
+        const modal = document.getElementById('projectModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalImage = document.getElementById('modalImage');
+        const modalVideo = document.getElementById('modalVideo');
+        const modalVideoSource = document.getElementById('modalVideoSource');
+        const modalDescription = document.getElementById('modalDescription');
+        const closeBtn = document.getElementsByClassName('close')[0];
+        const projects = document.querySelectorAll('.project[data-project]');
+
+        // プロジェクトクリックイベント
+        projects.forEach(project => {
+            project.addEventListener('click', function() {
+                const projectId = this.getAttribute('data-project');
+                const data = projectData[projectId];
+                
+                if (data) {
+                    modalTitle.textContent = data.title;
+                    modalDescription.innerHTML = data.description;
+                    
+                    // 動画があるかチェック
+                    if (data.video) {
+                        modalImage.style.display = 'none';
+                        modalVideo.style.display = 'block';
+                        modalVideoSource.src = data.video;
+                        modalVideo.load(); // 動画を再読み込み
+                    } else {
+                        modalVideo.style.display = 'none';
+                        modalImage.style.display = 'block';
+                        modalImage.src = data.image;
+                        modalImage.alt = data.title;
+                    }
+                    
+                    modal.style.display = 'block';
+                    document.body.style.overflow = 'hidden'; // スクロール無効化
+                }
+            });
+        });
+
+        // モーダルを閉じる
+        function closeModal() {
+            modal.style.display = 'none';
+            document.body.style.overflow = ''; // スクロール有効化
+            
+            // 動画を停止
+            if (modalVideo.style.display !== 'none') {
+                modalVideo.pause();
+                modalVideo.currentTime = 0;
+            }
+        }
+
+        closeBtn.addEventListener('click', closeModal);
+
+        // モーダル外クリックで閉じる
+        modal.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+
+        // ESCキーで閉じる
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && modal.style.display === 'block') {
+                closeModal();
+            }
+        });
+
+        // 動画の自動再生制御
+        document.addEventListener('DOMContentLoaded', function() {
+            const videos = document.querySelectorAll('video');
+            
+            videos.forEach(video => {
+                // 動画が読み込まれたら自動再生を開始
+                video.addEventListener('loadeddata', function() {
+                    // ブラウザによっては自動再生が制限される場合があるため、try-catchで囲む
+                    try {
+                        this.play().catch(function(error) {
+                            console.log('自動再生が制限されています:', error);
+                        });
+                    } catch (error) {
+                        console.log('動画の自動再生に失敗しました:', error);
+                    }
+                });
+
+                // エラーハンドリング：動画が読み込めない場合はフォールバック画像を表示
+                video.addEventListener('error', function() {
+                    const fallbackImg = this.querySelector('img');
+                    if (fallbackImg) {
+                        this.style.display = 'none';
+                        fallbackImg.style.display = 'block';
+                    }
+                });
+            });
+        });
+
+        // アニメーション用のIntersection Observer
         document.addEventListener('DOMContentLoaded', function() {
             const fadeElements = document.querySelectorAll('.fade-in');
             const slideElements = document.querySelectorAll('.slide-in');
@@ -173,15 +1027,37 @@
                     if (entry.isIntersecting) {
                         entry.target.classList.add('visible');
                         if (entry.target.classList.contains('skill-progress')) {
-                            entry.target.style.width = entry.target.dataset.width;
+                            const targetWidth = entry.target.getAttribute('data-width');
+                            setTimeout(() => {
+                                entry.target.style.width = targetWidth;
+                            }, 300);
                         }
                     }
                 });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
             });
 
             fadeElements.forEach(el => observer.observe(el));
             slideElements.forEach(el => observer.observe(el));
             skillBars.forEach(el => observer.observe(el));
+        });
+
+        // タッチイベントの改善（モバイル対応）
+        let touchStartY = 0;
+        let touchEndY = 0;
+
+        modal.addEventListener('touchstart', function(event) {
+            touchStartY = event.changedTouches[0].screenY;
+        });
+
+        modal.addEventListener('touchend', function(event) {
+            touchEndY = event.changedTouches[0].screenY;
+            // 下向きスワイプでモーダルを閉じる
+            if (touchStartY < touchEndY - 100) {
+                closeModal();
+            }
         });
     </script>
 </body>
