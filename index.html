@@ -229,28 +229,24 @@
             max-width: 100%;
         }
 
-        /* スキルバー */
-        .skill-bar {
-            background-color: #ddd;
-            height: 25px;
-            margin-bottom: 15px;
-            border-radius: 15px;
-            overflow: hidden;
-            position: relative;
+        /* 開発経験リスト */
+        .experience-list {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem auto 0;
+            max-width: 800px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            text-align: left;
         }
 
-        .skill-progress {
-            background: linear-gradient(90deg,  rgba(56, 148, 105, 0.6),  rgba(54, 177, 119, 0.6));
-            height: 100%;
-            width: 0;
-            transition: width 1.5s ease-out;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            padding-left: 15px;
+        .experience-list li {
+            background: rgba(255, 255, 255, 0.12);
+            border-left: 4px solid rgba(54, 177, 119, 0.8);
+            border-radius: 8px;
+            padding: 1rem 1.2rem;
             font-weight: bold;
-            color: white;
-            font-size: 0.9rem;
         }
 
         /* モーダル */
@@ -467,6 +463,10 @@
 
             .skills {
                 padding: 2rem 1rem;
+            }
+
+            .experience-list {
+                grid-template-columns: 1fr;
             }
 
             h1 {
@@ -800,26 +800,13 @@
     </div>
 
     <div class="section skills slide-in">
-        <h2>スキル</h2>
-        <p>Grasshopper, Pythonをはじめ、C++, UnityC#での開発経験があります。<br>
-        大学院での専門は非圧縮性流体と弾性体のシミュレーションとその建築への応用でした<br>
-        AI,ロボティクス技術関連と連続体力学を勉強中です。</p>
-
-        <div class="skill-bar">
-            <div class="skill-progress" data-width="50%">GrassHopper</div>
-        </div>
-
-        <div class="skill-bar">
-            <div class="skill-progress" data-width="50%">Python</div>
-        </div>
-
-        <div class="skill-bar">
-            <div class="skill-progress" data-width="45%">Unity/C#</div>
-        </div>
-
-        <div class="skill-bar">
-            <div class="skill-progress" data-width="35%">ROS/C++</div>
-        </div>
+        <h2>開発経験</h2>
+        <ul class="experience-list">
+            <li>ROS 2を用いたロボティクス開発</li>
+            <li>Flutterを用いたAndroidアプリ開発</li>
+            <li>Grasshopperを用いたパラメトリックな立体物の制作</li>
+            <li>力学シミュレーションの知識</li>
+        </ul>
     </div>
 
     <div class="section contact slide-in">
@@ -1225,18 +1212,11 @@
         document.addEventListener('DOMContentLoaded', function() {
             const fadeElements = document.querySelectorAll('.fade-in');
             const slideElements = document.querySelectorAll('.slide-in');
-            const skillBars = document.querySelectorAll('.skill-progress');
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('visible');
-                        if (entry.target.classList.contains('skill-progress')) {
-                            const targetWidth = entry.target.getAttribute('data-width');
-                            setTimeout(() => {
-                                entry.target.style.width = targetWidth;
-                            }, 300);
-                        }
                     }
                 });
             }, {
@@ -1246,7 +1226,6 @@
 
             fadeElements.forEach(el => observer.observe(el));
             slideElements.forEach(el => observer.observe(el));
-            skillBars.forEach(el => observer.observe(el));
         });
 
         // Touch event improvements (mobile support)
