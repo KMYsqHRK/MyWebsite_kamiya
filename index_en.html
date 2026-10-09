@@ -360,6 +360,57 @@
             transform: translateY(0);
         }
 
+        /* 論文リスト */
+        .publications {
+            max-width: 900px;
+            margin: 2rem auto 0;
+            padding: 0;
+            list-style: none;
+            text-align: left;
+        }
+
+        .publication {
+            background: rgba(252, 252, 230, 0.7);
+            border-left: 4px solid rgb(60, 91, 127);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1rem;
+            color: rgb(60, 91, 127);
+        }
+
+        .publication-date {
+            display: inline-block;
+            background: rgba(60, 91, 127, 0.8);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .publication-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin: 0.5rem 0 0.3rem;
+        }
+
+        .publication-authors,
+        .publication-venue {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .publication-venue {
+            color: #666;
+        }
+
+        /* おもちゃ（外部リンクカード） */
+        a.project {
+            display: block;
+            text-decoration: none;
+        }
+
         /* レスポンシブデザイン */
         @media (max-width: 768px) {
             .container {
@@ -506,12 +557,12 @@
 
     <header>
         <img src="img/MyLogo4.png" alt="Hiroki Kamiya Logo" class="icon fade-in">
-        <p>Design Engineer / Architecture, Mechanics Simulation</p>
+        <p>Robotics Engineer / Architecture, Mechanics Simulation</p>
     </header>
 
     <div class="section hero slide-in">
         <h2>About Me</h2>
-        <p>I am currently a graduate student at the University of Tokyo, affiliated with the Computational Mechanics Laboratory for Architecture. My name is Hiroki Kamiya.<br>
+        <p>My name is Hiroki Kamiya. I am an alumnus of the Computational Mechanics Laboratory for Architecture at the University of Tokyo graduate school, and I now work as a robotics engineer.<br>
         I have a passion for dynamics and am interested in simulation technology and its applications in architecture and robotics.<br>
         I am also interested in Interactive activities such as games and workshops.<br>
         My goal is to reduce unreasonable deaths through technology and design.
@@ -691,10 +742,59 @@
         </div>
     </div>
 
+    <div class="section slide-in">
+        <h2>Publications</h2>
+        <p>Peer-reviewed papers from my research (in Japanese)</p>
+
+        <ul class="publications">
+            <li class="publication fade-in">
+                <span class="publication-date">2026.11</span>
+                <p class="publication-title">A Proposal of an Uplift Pressure Evaluation Method Considering Infiltration</p>
+                <p class="publication-authors"><strong>Hiroki Kamiya</strong>, Tsuyoshi Koyama</p>
+                <p class="publication-venue">Journal of Structural and Construction Engineering (Transactions of AIJ), Vol.91, No.849</p>
+            </li>
+            <li class="publication fade-in">
+                <span class="publication-date">2026.10</span>
+                <p class="publication-title">A Comparative Study of Fluid Pressure Evaluation Methods on Structural Surfaces Using the MPS Method</p>
+                <p class="publication-authors"><strong>Hiroki Kamiya</strong>, Tsuyoshi Koyama</p>
+                <p class="publication-venue">AIJ Journal of Technology and Design, No.82</p>
+            </li>
+        </ul>
+    </div>
+
+    <div class="section slide-in">
+        <h2>Toys</h2>
+        <p>Small works you can play instantly in your browser. Best on a smartphone</p>
+
+        <div class="container">
+            <div class="projects">
+                <a class="project fade-in" href="https://gravisand.pages.dev/" target="_blank" rel="noopener">
+                    <div class="project-type">Play ↗</div>
+                    <h3>GraviSand</h3>
+                    <div class="media-container">
+                        <img src="img/gravisand.png" alt="GraviSand">
+                    </div>
+                    <p>An hourglass where you control time.<br>
+                    Press and hold, then drag left or right to change the flow of time</p>
+                </a>
+
+                <a class="project fade-in" href="https://shake-box.kmysqhrk0417.workers.dev" target="_blank" rel="noopener">
+                    <div class="project-type">Play ↗</div>
+                    <h3>Shake Box</h3>
+                    <div class="media-container">
+                        <img src="img/shakebox.png" alt="Shake Box">
+                    </div>
+                    <p>Shake your phone and the balls collide with sound.<br>
+                    You can also grab and throw them with your finger</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
     <div class="section skills slide-in">
         <h2>Skills</h2>
         <p>I have experience with Grasshopper, Python, C++, and Unity C# development.<br>
-        My specialization in graduate school is simulation of incompressible fluids and elastic bodies and their applications in architecture.<br>
+        My specialization in graduate school was simulation of incompressible fluids and elastic bodies and their applications in architecture.<br>
         Currently studying AI, robotics technology, and continuum mechanics.</p>
 
         <div class="skill-bar">
@@ -722,7 +822,7 @@
     </div>
 
     <footer>
-        <p>© 2025 Kamiya Hiroki.</p>
+        <p>© 2026 Kamiya Hiroki.</p>
     </footer>
 
     <!-- Modal -->

@@ -360,6 +360,57 @@
             transform: translateY(0);
         }
 
+        /* 論文リスト */
+        .publications {
+            max-width: 900px;
+            margin: 2rem auto 0;
+            padding: 0;
+            list-style: none;
+            text-align: left;
+        }
+
+        .publication {
+            background: rgba(252, 252, 230, 0.7);
+            border-left: 4px solid rgb(60, 91, 127);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1rem;
+            color: rgb(60, 91, 127);
+        }
+
+        .publication-date {
+            display: inline-block;
+            background: rgba(60, 91, 127, 0.8);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .publication-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin: 0.5rem 0 0.3rem;
+        }
+
+        .publication-authors,
+        .publication-venue {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .publication-venue {
+            color: #666;
+        }
+
+        /* おもちゃ（外部リンクカード） */
+        a.project {
+            display: block;
+            text-decoration: none;
+        }
+
         /* レスポンシブデザイン */
         @media (max-width: 768px) {
             .container {
@@ -506,12 +557,12 @@
 
     <header>
         <img src="img/MyLogo4.png" alt="Hiroki Kamiya Logo" class="icon fade-in">
-        <p>Design Engineer / Architecture, Mechanics simulation</p>
+        <p>Robotics Engineer / Architecture, Mechanics simulation</p>
     </header>
 
     <div class="section hero slide-in">
         <h2>自己紹介</h2>
-        <p>神谷弘貴と申します。<br>
+        <p>神谷弘貴と申します。東京大学大学院 建築計算力学研究室を修了後、現在はロボティクスエンジニアとして働いています。<br>
         動力学が好きで、シミュレーション技術とその建築やロボティクス分野への応用に興味があります<br>
         ゲームやワークショップなどのインタラクティブな活動も好きです。<br>
         技術・デザインを通して理不尽な死を減らしたいです。
@@ -699,10 +750,59 @@
         </div>
     </div>
 
+    <div class="section slide-in">
+        <h2>論文</h2>
+        <p>研究成果として掲載された論文です</p>
+
+        <ul class="publications">
+            <li class="publication fade-in">
+                <span class="publication-date">2026.11</span>
+                <p class="publication-title">浸潤を考慮した揚圧力評価手法の提案</p>
+                <p class="publication-authors"><strong>神谷弘貴</strong>, 小山毅</p>
+                <p class="publication-venue">日本建築学会構造系論文集 第91巻 第849号</p>
+            </li>
+            <li class="publication fade-in">
+                <span class="publication-date">2026.10</span>
+                <p class="publication-title">MPS流体粒子法による構造物表面における流体圧力評価手法の比較検討</p>
+                <p class="publication-authors"><strong>神谷弘貴</strong>, 小山毅</p>
+                <p class="publication-venue">日本建築学会技術報告集 第82号</p>
+            </li>
+        </ul>
+    </div>
+
+    <div class="section slide-in">
+        <h2>おもちゃたち</h2>
+        <p>ブラウザですぐ遊べる小さな作品です。スマホでの操作がおすすめです</p>
+
+        <div class="container">
+            <div class="projects">
+                <a class="project fade-in" href="https://gravisand.pages.dev/" target="_blank" rel="noopener">
+                    <div class="project-type">遊ぶ ↗</div>
+                    <h3>GraviSand</h3>
+                    <div class="media-container">
+                        <img src="img/gravisand.png" alt="GraviSand">
+                    </div>
+                    <p>時間を操る砂時計。<br>
+                    長押しして左右にドラッグすると時間の流れが変わります</p>
+                </a>
+
+                <a class="project fade-in" href="https://shake-box.kmysqhrk0417.workers.dev" target="_blank" rel="noopener">
+                    <div class="project-type">遊ぶ ↗</div>
+                    <h3>Shake Box</h3>
+                    <div class="media-container">
+                        <img src="img/shakebox.png" alt="Shake Box">
+                    </div>
+                    <p>スマホを振ると球がぶつかり合って音が鳴ります。<br>
+                    指でつかんで投げることもできます</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
     <div class="section skills slide-in">
         <h2>スキル</h2>
         <p>Grasshopper, Pythonをはじめ、C++, UnityC#での開発経験があります。<br>
-        大学院での専門は非圧縮性流体と弾性体のシミュレーションとその建築への応用です<br>
+        大学院での専門は非圧縮性流体と弾性体のシミュレーションとその建築への応用でした<br>
         AI,ロボティクス技術関連と連続体力学を勉強中です。</p>
 
         <div class="skill-bar">
@@ -730,7 +830,7 @@
     </div>
 
     <footer>
-        <p>© 2025 Kamiya Hiroki.</p>
+        <p>© 2026 Kamiya Hiroki.</p>
     </footer>
 
     <!-- モーダル -->
